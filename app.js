@@ -1479,13 +1479,22 @@ async function loadRawInventory(
         return;
     }
 
+    const sortedData =
+    (data ?? []).sort(
+        (a, b) =>
+            (a.ingredients?.name ?? "")
+                .localeCompare(
+                    b.ingredients?.name ?? ""
+                )
+    );
+
     cachedRawItems =
-    data ?? [];
+        sortedData;
 
     updateRawIngredientOptions();
 
     renderRaw(
-        data ?? []
+        sortedData
     );
 }
 
@@ -1922,9 +1931,17 @@ async function loadCookedInventory(
         });
     }
 
+   const sortedCooked =
+    cooked.sort(
+        (a, b) =>
+            (a.name ?? "")
+                .localeCompare(
+                    b.name ?? ""
+                )
+    );
 
     renderCooked(
-        cooked
+        sortedCooked
     );
 }
 
