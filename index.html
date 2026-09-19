@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Food Inventory</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Food Inventory</h1>
+        <p class="subtitle">
+            Kitchen inventory
+        </p>
+    </header>
+
+
+    <!-- ================================================== -->
+    <!-- LOGIN -->
+    <!-- ================================================== -->
+
+    <section
+        id="login-section"
+        class="card"
+    >
+        <h2>Sign In</h2>
+
+        <label for="email">
+            Email
+        </label>
+
+        <input
+            id="email"
+            type="email"
+            autocomplete="email"
+        >
+
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+        >
+
+
+        <button id="login-button">
+            Sign In
+        </button>
+
+        <p
+            id="login-message"
+            class="message"
+        ></p>
+    </section>
+
+
+    <!-- ================================================== -->
+    <!-- APP -->
+    <!-- ================================================== -->
+
+    <main
+        id="app-section"
+        class="hidden"
+    >
+
+        <div class="top-actions">
+
+            <span id="user-email"></span>
+
+            <button
+                id="logout-button"
+                class="secondary-button"
+            >
+                Sign Out
+            </button>
+
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- RAW -->
+        <!-- ============================================== -->
+
+        <section class="inventory-section">
+
+            <div class="section-title">
+
+                <h2>Raw</h2>
+
+                <span
+                    id="raw-count"
+                    class="count"
+                ></span>
+
+            </div>
+
+
+            <div
+                id="raw-list"
+                class="inventory-list"
+            ></div>
+
+            <button
+                id="add-raw-button"
+                class="add-button"
+                type="button"
+            >
+                + Add Raw Food
+            </button>
+
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- RAW LOW -->
+        <!-- ============================================== -->
+
+        <section
+            id="raw-low-section"
+            class="low-section"
+        >
+
+            <h3>Raw Low</h3>
+
+            <div id="raw-low-list"></div>
+
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- COOKED -->
+        <!-- ============================================== -->
+
+        <section class="inventory-section">
+
+            <div class="section-title">
+
+                <h2>Cooked</h2>
+
+                <span
+                    id="cooked-count"
+                    class="count"
+                ></span>
+
+            </div>
+
+
+            <div
+                id="cooked-list"
+                class="inventory-list"
+            ></div>
+
+            <button
+                id="add-cooked-button"
+                class="add-button"
+                type="button"
+            >
+                + Add Cooked Food
+            </button>
+
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- COOKED LOW -->
+        <!-- ============================================== -->
+
+        <section
+            id="cooked-low-section"
+            class="low-section"
+        >
+
+            <h3>Cooked Low</h3>
+
+            <div id="cooked-low-list"></div>
+
+        </section>        
+        
+        <section class="inventory-section">
+
+            <div class="section-header">
+                <h2>RECIPES</h2>
+                <span id="recipe-count">0</span>
+            </div>
+
+            <div id="recipe-list"></div>
+
+            <button
+                id="add-recipe-button"
+                class="add-button"
+                type="button"
+            >
+                + Add Recipe
+            </button>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- <section class="inventory-section">
+
+    <div class="section-header">
+        <h2>RECIPES</h2>
+        <span id="recipe-count">0</span>
+    </div>
+
+    <div id="recipe-list"></div>
+
+    <button
+        id="add-recipe-button"
+        class="add-button"
+        type="button"
+    >
+        + Add Recipe
+    </button>
+
+</section> -->
+
+<dialog id="recipe-dialog" class="recipe-dialog">
+
+    <form id="recipe-form">
+
+        <h2>Add Recipe</h2>
+
+        <label for="recipe-name">
+            Recipe Name
+        </label>
+
+        <input
+            id="recipe-name"
+            type="text"
+            placeholder="Pepperoni Pizza / 意大利辣香肠披萨"
+            required
+        >
+
+
+        <label for="recipe-description">
+            Description
+        </label>
+
+        <textarea
+            id="recipe-description"
+            rows="3"
+            placeholder="Optional description / 简介"
+        ></textarea>
+
+
+        <div class="recipe-two-columns">
+
+            <div>
+                <label for="recipe-prep-minutes">
+                    Prep Time (min)
+                </label>
+
+                <input
+                    id="recipe-prep-minutes"
+                    type="number"
+                    min="0"
+                    step="1"
+                    value="10"
+                >
+            </div>
+
+            <div>
+                <label for="recipe-servings">
+                    Servings
+                </label>
+
+                <input
+                    id="recipe-servings"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value="1"
+                >
+            </div>
+
+        </div>
+
+
+        <h3>Ingredients</h3>
+
+        <div id="recipe-ingredients-editor"></div>
+
+        <button
+            id="add-recipe-ingredient-button"
+            type="button"
+            class="secondary-button recipe-add-row-button"
+        >
+            + Ingredient
+        </button>
+
+
+        <h3>Instructions / 步骤</h3>
+
+        <div id="recipe-steps-editor"></div>
+
+        <button
+            id="add-recipe-step-button"
+            type="button"
+            class="secondary-button recipe-add-row-button"
+        >
+            + Step
+        </button>
+
+
+        <p
+            id="recipe-form-message"
+            class="message"
+        ></p>
+
+
+        <div class="dialog-actions">
+
+            <button
+                id="cancel-recipe-button"
+                type="button"
+                class="secondary-button"
+            >
+                Cancel
+            </button>
+
+            <button type="submit">
+                Save Recipe
+            </button>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+<dialog id="recipe-detail-dialog" class="recipe-dialog">
+
+    <div class="recipe-detail">
+
+        <h2 id="detail-recipe-name"></h2>
+
+        <p
+            id="detail-recipe-description"
+            class="recipe-description"
+        ></p>
+
+        <div
+            id="detail-recipe-meta"
+            class="recipe-detail-meta"
+        ></div>
+
+
+        <h3>Ingredients</h3>
+
+        <div id="detail-recipe-ingredients"></div>
+
+
+        <h3>Instructions / 步骤</h3>
+
+        <div id="detail-recipe-steps"></div>
+
+
+        <p
+            id="recipe-detail-message"
+            class="message"
+        ></p>
+
+
+        <div class="edit-dialog-actions">
+
+            <button
+                id="delete-recipe-button"
+                type="button"
+                class="delete-button"
+            >
+                Delete
+            </button>
+
+
+            <div class="edit-right-actions">
+
+                <button
+                    id="close-recipe-detail-button"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Close
+                </button>
+
+                <button
+                    id="edit-recipe-button"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Edit
+                </button>
+
+                <button
+                    id="cook-recipe-button"
+                    type="button"
+                >
+                    Cook This
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</dialog>
+<!-- ======================================================
+     ADD RAW FOOD
+     ====================================================== -->
+
+<dialog id="raw-dialog">
+
+    <form id="raw-form">
+
+        <h2>Add Raw Food</h2>
+
+        <label for="raw-name">
+            Name
+        </label>
+
+        <input
+            id="raw-name"
+            type="text"
+            required
+        >
+
+
+        <label for="raw-category">
+            Category
+        </label>
+
+        <select id="raw-category">
+            <option value="Meat">Meat</option>
+            <option value="Vegetable">Vegetable</option>
+            <option value="Fruit">Fruit</option>
+            <option value="Pizza">Pizza</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Other">Other</option>
+        </select>
+
+
+        <label for="raw-quantity">
+            Quantity
+        </label>
+
+        <input
+            id="raw-quantity"
+            type="number"
+            min="0"
+            step="0.1"
+            value="1"
+            required
+        >
+
+
+        <label for="raw-unit">
+            Unit
+        </label>
+
+        <select id="raw-unit">
+            <option value="portion">
+                portion
+            </option>
+
+            <option value="piece">
+                piece
+            </option>
+
+            <option value="g">
+                g
+            </option>
+
+            <option value="kg">
+                kg
+            </option>
+
+            <option value="oz">
+                oz
+            </option>
+
+            <option value="lb">
+                lb
+            </option>
+        </select>
+
+
+        <label for="raw-portion">
+            Portion Size
+        </label>
+
+        <input
+            id="raw-portion"
+            type="text"
+            placeholder="150 g"
+        >
+
+
+        <label for="raw-threshold">
+            Low When ≤
+        </label>
+
+        <input
+            id="raw-threshold"
+            type="number"
+            min="0"
+            step="0.1"
+            value="0"
+            required
+        >
+
+
+        <p
+            id="raw-form-message"
+            class="message"
+        ></p>
+
+
+        <div class="dialog-actions">
+
+            <button
+                id="cancel-raw-button"
+                type="button"
+                class="secondary-button"
+            >
+                Cancel
+            </button>
+
+            <button type="submit">
+                Add Food
+            </button>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+
+<!-- ======================================================
+     ADD COOKED FOOD
+     ====================================================== -->
+
+<dialog id="cooked-dialog">
+
+    <form id="cooked-form">
+
+        <h2>Add Cooked Food</h2>
+
+
+        <label for="cooked-item">
+            Food
+        </label>
+
+        <select
+            id="cooked-item"
+            required
+        ></select>
+
+
+        <div
+            id="new-cooked-fields"
+            class="hidden"
+        >
+
+            <label for="cooked-name">
+                Name
+            </label>
+
+            <input
+                id="cooked-name"
+                type="text"
+            >
+
+
+            <label for="cooked-portion">
+                Portion Size
+            </label>
+
+            <input
+                id="cooked-portion"
+                type="text"
+                placeholder="150 g"
+            >
+
+
+            <label for="cooked-threshold">
+                Low When ≤
+            </label>
+
+            <input
+                id="cooked-threshold"
+                type="number"
+                min="0"
+                step="0.1"
+                value="0"
+            >
+
+        </div>
+
+
+        <label for="cooked-quantity">
+            Quantity
+        </label>
+
+        <input
+            id="cooked-quantity"
+            type="number"
+            min="0.1"
+            step="0.1"
+            value="1"
+            required
+        >
+
+
+        <label for="cooked-date">
+            Cooked Date
+        </label>
+
+        <input
+            id="cooked-date"
+            type="date"
+            required
+        >
+
+
+        <p
+            id="cooked-form-message"
+            class="message"
+        ></p>
+
+
+        <div class="dialog-actions">
+
+            <button
+                id="cancel-cooked-button"
+                type="button"
+                class="secondary-button"
+            >
+                Cancel
+            </button>
+
+            <button type="submit">
+                Add Cooked
+            </button>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+<!-- ======================================================
+     EDIT RAW FOOD
+     ====================================================== -->
+
+<dialog id="edit-raw-dialog">
+
+    <form id="edit-raw-form">
+
+        <h2>Edit Raw Food</h2>
+
+        <label for="edit-raw-name">
+            Name
+        </label>
+
+        <input
+            id="edit-raw-name"
+            type="text"
+            required
+        >
+
+
+        <label for="edit-raw-category">
+            Category
+        </label>
+
+        <select id="edit-raw-category">
+            <option value="Meat">Meat</option>
+            <option value="Vegetable">Vegetable</option>
+            <option value="Fruit">Fruit</option>
+            <option value="Pizza">Pizza</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Other">Other</option>
+        </select>
+
+
+        <label for="edit-raw-unit">
+            Unit
+        </label>
+
+        <select id="edit-raw-unit">
+            <option value="portion">portion</option>
+            <option value="piece">piece</option>
+            <option value="g">g</option>
+            <option value="kg">kg</option>
+            <option value="oz">oz</option>
+            <option value="lb">lb</option>
+        </select>
+
+
+        <label for="edit-raw-portion">
+            Portion Size
+        </label>
+
+        <input
+            id="edit-raw-portion"
+            type="text"
+        >
+
+
+        <label for="edit-raw-threshold">
+            Low When ≤
+        </label>
+
+        <input
+            id="edit-raw-threshold"
+            type="number"
+            min="0"
+            step="0.1"
+            required
+        >
+
+
+        <p
+            id="edit-raw-message"
+            class="message"
+        ></p>
+
+
+        <div class="edit-dialog-actions">
+
+            <button
+                id="delete-raw-button"
+                type="button"
+                class="delete-button"
+            >
+                Delete
+            </button>
+
+            <div class="edit-right-actions">
+
+                <button
+                    id="cancel-edit-raw-button"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+<!-- ======================================================
+     EDIT COOKED FOOD
+     ====================================================== -->
+
+<dialog id="edit-cooked-dialog">
+
+    <form id="edit-cooked-form">
+
+        <h2>Edit Cooked Food</h2>
+
+
+        <label for="edit-cooked-name">
+            Name
+        </label>
+
+        <input
+            id="edit-cooked-name"
+            type="text"
+            required
+        >
+
+
+        <label for="edit-cooked-portion">
+            Portion Size
+        </label>
+
+        <input
+            id="edit-cooked-portion"
+            type="text"
+        >
+
+
+        <label for="edit-cooked-threshold">
+            Low When ≤
+        </label>
+
+        <input
+            id="edit-cooked-threshold"
+            type="number"
+            min="0"
+            step="0.1"
+            required
+        >
+
+
+        <h3 class="batch-title">
+            Current Batches
+        </h3>
+
+        <div id="edit-cooked-batches">
+        </div>
+
+
+        <p
+            id="edit-cooked-message"
+            class="message"
+        ></p>
+
+
+        <div class="edit-dialog-actions">
+
+            <button
+                id="delete-cooked-button"
+                type="button"
+                class="delete-button"
+            >
+                Delete
+            </button>
+
+
+            <div class="edit-right-actions">
+
+                <button
+                    id="cancel-edit-cooked-button"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<datalist id="raw-ingredient-options">
+<script src="app.js"></script>
+
+</datalist>
+
+</body>
+</html>
